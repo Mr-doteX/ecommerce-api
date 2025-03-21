@@ -1,5 +1,5 @@
 import { userModel } from "../models/user.js";
-import { loginUserValidator, registerUserValidator } from "../validators/users.js";
+import { loginUserValidator, registerUserValidator, updateUserValidator } from "../validators/users.js";
 import bcrypt from "bcrypt";
 import Jwt from "jsonwebtoken";
 
@@ -63,4 +63,21 @@ export const loginUser = async(req, res, next) =>{
     )
     // return response
     res.status(200).json({accessToken});
+}
+
+
+export const updateUser =async(req, res, next) => {
+    // validate the user body
+    const {error,value} = updateUserValidator.validate(req.body);
+    if(error){
+        return res.status(422).json(error)
+    }
+    // update user in database
+    const results = await userModel.findByIdAndUpdate(
+        req.params.id, //a suaperadmin to update user role
+        value
+        {new: true}
+    );
+    // return response
+    res.status(200).json(result);
 }

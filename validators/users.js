@@ -12,3 +12,7 @@ export const loginUserValidator = joi.object({
     email: joi.string().optional(),
     password: joi.string().required(),
 });
+
+export const updateUserValidator = joi.object({
+    role: joi.string().valid('staff','manager','admin', 'superadmin').required(),
+});
