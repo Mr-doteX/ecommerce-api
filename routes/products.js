@@ -22,9 +22,11 @@ productRouter.get("/products", getProducts);
 
 productRouter.get("/products/count", countProducts);
 
-productRouter.patch("/products/:id", updateProduct);
+productRouter.patch("/products/:id", isAuthenticated,updateProduct);
 
-productRouter.delete("/products/:id", deleteProduct);
+productRouter.put("/products/:id", isAuthenticated, productPicturesUpload.array("pictures", 3),replaceProduct);
+
+productRouter.delete("/products/:id",isAuthenticated, deleteProduct);
 
 // export the product router
 export default productRouter;
